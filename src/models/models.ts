@@ -99,6 +99,8 @@ export async function addEvent(
   invitee_flaked: number
 ) {
   try {
+
+    
     const [result] = await db.execute(
       `
     INSERT INTO events (
