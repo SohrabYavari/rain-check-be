@@ -8,7 +8,7 @@
     "seed-prod": "NODE_ENV=prod node dist/db/run-seed.js",
     "start": "node dist/server/listen.js",
     "test": "jest --runInBand",
-    "setup-db": "mysql -u root -p > src/db/raincheck.sql",
+    "setup-db": "mysql -u root -p < src/db/raincheck.sql",
     "seed": "node -r ts-node/register src/db/run-seed.ts",
     "dev": "nodemon -r ts-node/register src/server/listen.ts"
   },
