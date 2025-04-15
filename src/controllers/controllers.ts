@@ -7,6 +7,7 @@ import {
   fetchUser,
   inviteeFlaked,
   hostFlaked,
+  addEvent
 } from "../models/models";
 import { TEventsData, TUsersData } from "../types/TData";
 
@@ -122,5 +123,39 @@ export async function markHostFlaked(
     return reply.code(201).send({ success: true, data: flaker });
   } catch (error) {
     return reply.status(500).send({ message: "Internal Server Error" });
+  }
+}
+
+//!POST a new event to certain user
+export async function postAnEvent(
+  request: FastifyRequest<{ Body: TEventsData }>,
+  reply: FastifyReply
+) {
+  try{
+    const {
+    title,
+    description,
+    date,
+    location,
+    created_by,
+    invited,
+    host_flaked,
+    invitee_flaked,
+  } = request.body;
+
+  const event = await addEvent(
+    title,
+    description,
+    date,
+    location,
+    created_by,
+    invited,
+    host_flaked,
+    invitee_flaked
+  );
+  return reply.code(201).send({ event });
+}
+  catch (err) {
+  return reply.status(500).send({ message: "Internal Server Error" });
   }
 }
