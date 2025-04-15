@@ -37,7 +37,6 @@ export const events: TEventsData[] = [
     host_flaked: 0,
     invitee_flaked: 1,
   },
-
   // Events by lee
   {
     event_id: 4,
@@ -49,18 +48,5 @@ export const events: TEventsData[] = [
     invited: "connor",
     host_flaked: 1,
     invitee_flaked: 1,
-  },
-
-  // Events by steph
-  {
-    event_id: 5,
-    title: "title five",
-    description: "event description",
-    date: "2025-05-10 14:00:00",
-    location: "event descriptionlocation",
-    created_by: "steph",
-    invited: "deedee",
-    host_flaked: 1,
-    invitee_flaked: 0,
-  },
+  }
 ];
