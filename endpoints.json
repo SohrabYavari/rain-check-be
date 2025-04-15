@@ -1,0 +1,108 @@
+{
+  "GET /api/users": {
+    "description": "serves an array of all users",
+    "exampleResponse": {
+      "users": [
+        {
+          "user_id": 1,
+          "username": "sam",
+          "email": "sam@legitemail.com",
+          "password": "verySecurePassword"
+        }
+      ]
+    }
+  },
+  "GET /api/events": {
+    "description": "serves an array of all events",
+    "exampleResponse": {
+      "events": [
+        {
+          "event_id": 1,
+          "title": "Northcoders Graduation",
+          "description": "drinks and snacks",
+          "date": "2025-04-11T18:00:00.000Z",
+          "location": "Manchester",
+          "created_by": 1,
+          "invited": 4,
+          "host_flaked": 0,
+          "invitee_flaked": 0
+        }
+      ]
+    }
+  },
+  "GET /api/events/:eventId": {
+    "description": "serves a single event object",
+    "exampleResponse": {
+    "event": {
+        "event_id": 3,
+        "title": "Minecraft LAN party",
+        "description": "blocks and doritos",
+        "date": "2025-04-11T18:00:00.000Z",
+        "location": "Your house",
+        "created_by": 3,
+        "invited": 4,
+        "host_flaked": 0,
+        "invitee_flaked": 0
+        }
+    }
+  },
+  "GET /api/users/:created_by/events": {
+    "description": "serves an array of all events created by a user",
+    "exampleResponse": {
+      "events": [
+        {
+        "event_id": 4,
+        "title": "small gig",
+        "description": "music and vibes",
+        "date": "2025-04-11T18:00:00.000Z",
+        "location": "a random basement somewhere",
+        "created_by": 2,
+        "invited": 1,
+        "host_flaked": 0,
+        "invitee_flaked": 0
+        }
+    ]
+    }
+  },
+  "PATCH /api/events/:eventId": {
+    "description": "updates the inviteeFlaked or hostProperty on the event object",
+    "exampleResponse": {
+        "event": {
+            "event_id": 1,
+            "title": "Northcoders Graduation",
+            "description": "drinks and snacks",
+            "date": "2025-04-11T18:00:00.000Z",
+            "location": "Manchester",
+            "created_by": 1,
+            "invited": 4,
+            "host_flaked": 1,
+            "invitee_flaked": 1
+            }
+    }
+  },
+  "POST /api/events": {
+    "description": "serves a newly posted events object and associates it with the user",
+    "exampleBody": {         
+        "title": "Big Bday Bash",
+        "description": "come celebrate me",
+        "date": "2025-04-29T18:00:00.000Z",
+        "location": "My House",
+        "created_by": "deedee",
+        "invited": 4,
+        "host_flaked": 0,
+        "invitee_flaked": 0
+        },
+    "exampleResponse": {
+        "event_id": 6,
+        "title": "Big Bday Bash",
+        "description": "come celebrate me",
+        "date": "2025-04-29T18:00:00.000Z",
+        "location": "My House",
+        "created_by": "deedee",
+        "invited": 4,
+        "host_flaked": 0,
+        "invitee_flaked": 0
+          
+    }
+  }
+}
