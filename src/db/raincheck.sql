@@ -1,0 +1,2 @@
+DROP DATABASE IF EXISTS raincheck_db;
+CREATE DATABASE raincheck_db;
