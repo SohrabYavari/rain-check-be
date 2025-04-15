@@ -24,7 +24,7 @@ export async function createEventsTable() {
       date DATETIME NOT NULL,
       location VARCHAR(255) NOT NULL,
       created_by VARCHAR(255) NOT NULL,
-      invited VARCHAR(255) NOT NULL,
+      invited VARCHAR(255),
       host_flaked TINYINT DEFAULT 0,
       invitee_flaked TINYINT DEFAULT 0,
       FOREIGN KEY (created_by) REFERENCES users(username),

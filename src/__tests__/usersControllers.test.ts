@@ -26,12 +26,34 @@ describe("testing /api/users endpoint", () => {
     });
   });
 
-  it("should give an object of a dingle user", async () => {
+  it("should give an object of a single user", async () => {
     const {
       body: { user },
     } = await request(server.server).get("/api/users/sam").expect(200);
     expect(user).toMatchObject([
-      { email: "sam@raincheckltd.com", password: "password", username: "sam" },
+      { email: "sam@email.com", password: "password", username: "sam" },
+    ]);
+  });
+
+  it("should respond with an array of objects containing the events a user has planned", async () => {
+    const {
+      body: { events_by_user },
+    } = await request(server.server)
+      .get("/api/users/connor/events")
+      .expect(200);
+
+    expect(events_by_user).toMatchObject([
+      {
+        event_id: 3,
+        title: "title three",
+        description: "event description",
+        date: "2025-04-20T16:30:00.000Z",
+        location: "location",
+        created_by: "connor",
+        invited: "sam",
+        host_flaked: 0,
+        invitee_flaked: 1,
+      },
     ]);
   });
 });
