@@ -3,6 +3,7 @@ import cors from "@fastify/cors";
 import {
   getRoutes,
   patchFlaked,
+  postRoutes
 } from "../routes/routes";
 
 const server = Fastify({ logger: true });
@@ -12,6 +13,6 @@ server.register(cors, {
 
 server.register(getRoutes);
 server.register(patchFlaked);
-// server.register(patchHostFlaked);
+server.register(postRoutes);
 
 export default server;
