@@ -1,6 +1,9 @@
 import Fastify from "fastify";
 import cors from "@fastify/cors";
-import { getRoutes, patchHostFlaked, patchInviteeFlaked } from "../routes/routes";
+import {
+  getRoutes,
+  patchFlaked,
+} from "../routes/routes";
 
 const server = Fastify({ logger: true });
 server.register(cors, {
@@ -8,7 +11,7 @@ server.register(cors, {
 });
 
 server.register(getRoutes);
-server.register(patchInviteeFlaked)
-server.register(patchHostFlaked)
+server.register(patchFlaked);
+// server.register(patchHostFlaked);
 
 export default server;
