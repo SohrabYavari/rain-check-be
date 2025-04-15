@@ -85,3 +85,52 @@ export async function hostFlaked(event_id: number) {
     throw error;
   }
 }
+
+//!Adds new event object to the DB
+export async function addEvent(
+  
+  title: string,
+  description: string,
+  date: string,
+  location: string,
+  created_by: string,
+  invited: string,
+  host_flaked: number,
+  invitee_flaked: number
+) {
+  try {
+    const [result] = await db.execute(
+      `
+    INSERT INTO events (
+      title, 
+      description, 
+      date, 
+      location, 
+      created_by, 
+      invited, 
+      host_flaked, 
+      invitee_flaked
+      )
+      VALUES(?,?,?,?,?,?,?,?)
+    `,
+      [
+        title,
+        description,
+        date,
+        location,
+        created_by,
+        invited,
+        host_flaked,
+        invitee_flaked,
+      ]
+    );
+
+    const insertId = (result as any).insertId
+    
+    const[rows] = await db.query('SELECT * FROM events WHERE event_id = ?', [insertId]);
+    return rows[0];
+  } catch (error) {
+    console.error("Error creating event", error);
+    throw error 
+  }
+}
