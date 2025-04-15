@@ -5,6 +5,8 @@ import {
   fetchEventByUser,
   fetchEventById,
   fetchUser,
+  inviteeFlaked,
+  hostFlaked,
 } from "../models/models";
 import { TEventsData, TUsersData } from "../types/TData";
 
@@ -80,21 +82,45 @@ export async function getEventByUser(
   }
 }
 export async function getUser(
-    request: FastifyRequest<{ Params: TUsersData }>,
-    reply: FastifyReply
-  ) {
-    try {
-      const { username } = request.params;
-      const user = await fetchUser(username);
-  
-      if (!user) {
-        return reply
-          .status(404)
-          .send({ message: "This User does not exist" });
-      }
-  
-      return reply.send({ user });
-    } catch (err) {
-      return reply.status(500).send({ message: "Internal Server Error" });
+  request: FastifyRequest<{ Params: TUsersData }>,
+  reply: FastifyReply
+) {
+  try {
+    const { username } = request.params;
+    const user = await fetchUser(username);
+
+    if (!user) {
+      return reply.status(404).send({ message: "This User does not exist" });
     }
+
+    return reply.send({ user });
+  } catch (err) {
+    return reply.status(500).send({ message: "Internal Server Error" });
   }
+}
+
+//! PATCH requests, marking the flakers
+export async function markInviteeFlaked(
+  request: FastifyRequest<{ Params: TEventsData }>,
+  reply: FastifyReply
+) {
+  try {
+    const { event_id } = request.params;
+    const flaker = await inviteeFlaked(event_id);
+    return reply.code(201).send({ success: true, data: flaker });
+  } catch (error) {
+    return reply.status(500).send({ message: "Internal Server Error" });
+  }
+}
+export async function markHostFlaked(
+  request: FastifyRequest<{ Params: TEventsData }>,
+  reply: FastifyReply
+) {
+  try {
+    const { event_id } = request.params;
+    const flaker = await hostFlaked(event_id);
+    return reply.code(201).send({ success: true, data: flaker });
+  } catch (error) {
+    return reply.status(500).send({ message: "Internal Server Error" });
+  }
+}
