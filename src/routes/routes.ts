@@ -18,9 +18,6 @@ export function getRoutes(fastify: FastifyInstance) {
   fastify.get("/api/users/:username", getUser);
 }
 
-export function patchInviteeFlaked(fastify: FastifyInstance) {
-  fastify.patch("/api/events/:event_id", markInviteeFlaked);
-}
-export function patchHostFlaked(fastify: FastifyInstance) {
-  fastify.patch("/api/events/:event_id", markHostFlaked);
+export function patchFlaked(fastify: FastifyInstance) {
+  fastify.patch("/api/events/:event_id", markInviteeFlaked || markHostFlaked);
 }
