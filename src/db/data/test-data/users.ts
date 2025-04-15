@@ -3,27 +3,27 @@ import { TUsersData } from "../../../types/TData";
 export const users: TUsersData[] = [
   {
     username: "sam",
-    email: "sam@raincheckltd.com",
+    email: "sam@email.com",
     password: "password",
   },
   {
     username: "deedee",
-    email: "deedee@raincheckltd.com",
+    email: "deedee@email.com",
     password: "password",
   },
   {
     username: "connor",
-    email: "connor@raincheckltd.com",
+    email: "connor@email.com",
     password: "password",
   },
   {
     username: "lee",
-    email: "lee@raincheckltd.com",
+    email: "lee@email.com",
     password: "password",
   },
   {
     username: "steph",
-    email: "steph@raincheckltd.com",
+    email: "steph@email.com",
     password: "password",
   },
 ];
