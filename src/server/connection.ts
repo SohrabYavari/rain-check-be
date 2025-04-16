@@ -12,6 +12,7 @@ if (ENV !== "prod") {
 let config: any;
 
 
+//* PSQL database setup  
 if (process.env.DATABASE_URL) {
   const dbUrl = new URL(process.env.DATABASE_URL);
   config = {
