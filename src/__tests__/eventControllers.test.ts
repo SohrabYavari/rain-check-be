@@ -54,9 +54,11 @@ describe("GET /api/events/:event_id", () => {
 			},
 		]);
 	});
-	test.todo("400 : Responds with Bad Request error status if an invalid event_id is input");
 	test.todo(
-		"404 : Responds with Not Found error status if an valid event_id is input but doesn't exist in the database"
+		"400 : Responds with Bad Request error status if an invalid event_id is input mybdayparty"
+	);
+	test.todo(
+		"404 : Responds with Not Found error status if an valid event_id is input but doesn't exist in the database 35"
 	);
 });
 
@@ -82,28 +84,13 @@ describe("PATCH /api/event/:event_id", () => {
 				invitee_flaked: true,
 			});
 		});
-	});
-	describe("inviteeFlaked", () => {
-		it("should respond with a single event object with the updated inviteeFlaked prop", async () => {
-			const {
-				body: { data },
-			} = await request(server.server)
-				.patch("/api/events/2?action=inviteeFlaked")
-				.send({ invitee_flaked: true })
-				.expect(201);
-			expect(data[0]).toMatchObject({
-				event_id: 2,
-				title: "title two",
-				description: "event description",
-				date: "2025-05-01T23:00:00.000Z",
-				time: "20:00:00",
-				location: "location",
-				created_by: "deedee",
-				invited: "lee",
-				host_flaked: false,
-				invitee_flaked: true,
-			});
-		});
+		test.todo(
+			"should respond with the updated event object as long as the body has the required field"
+		);
+		test.todo("should respond with a 400 if the event_id is invalid");
+		test.todo("should respond with a 404 if the event_id is valid but not in the db yet");
+		test.todo("should respond with a 400 if required field isn'\t in the sent body");
+		test.todo("should respond with a 400 if required field doesn'\t have a valid value");
 	});
 	describe("hostFlaked", () => {
 		it("should respond with a single event object with the up", async () => {
@@ -126,6 +113,42 @@ describe("PATCH /api/event/:event_id", () => {
 				invitee_flaked: true,
 			});
 		});
+		test.todo(
+			"should respond with the updated event object as long as the body has the required field"
+		);
+		test.todo("should respond with a 400 if the event_id is invalid");
+		test.todo("should respond with a 404 if the event_id is valid but not in the db yet");
+		test.todo("should respond with a 400 if required field isn'\t in the sent body");
+		test.todo("should respond with a 400 if required field doesn'\t have a valid value");
+	});
+	describe("inviteeFlaked", () => {
+		it("should respond with a single event object with the updated inviteeFlaked prop", async () => {
+			const {
+				body: { data },
+			} = await request(server.server)
+				.patch("/api/events/2?action=inviteeFlaked")
+				.send({ invitee_flaked: true })
+				.expect(201);
+			expect(data[0]).toMatchObject({
+				event_id: 2,
+				title: "title two",
+				description: "event description",
+				date: "2025-05-01T23:00:00.000Z",
+				time: "20:00:00",
+				location: "location",
+				created_by: "deedee",
+				invited: "lee",
+				host_flaked: false,
+				invitee_flaked: true,
+			});
+		});
+		test.todo(
+			"should respond with the updated event object as long as the body has the required field"
+		);
+		test.todo("should respond with a 400 if the event_id is invalid");
+		test.todo("should respond with a 404 if the event_id is valid but not in the db yet");
+		test.todo("should respond with a 400 if required field isn'\t in the sent body");
+		test.todo("should respond with a 400 if required field doesn'\t have a valid value");
 	});
 });
 
@@ -138,7 +161,7 @@ describe("POST /api/events", () => {
 			.send({
 				title: "title five",
 				description: "event description!",
-				date:"2025-06-14",
+				date: "2025-06-14",
 				time: "16:00:00",
 				location: "London",
 				created_by: "deedee",
@@ -160,8 +183,7 @@ describe("POST /api/events", () => {
 			invitee_flaked: false,
 		});
 	});
-
-	it("should respond with a 400:Bad Request error status if an invalid body is sent", async () => {
+	it("should respond with a 400 : Bad Request error status if an invalid body is sent", async () => {
 		const {
 			body: { message },
 		} = await request(server.server)
@@ -176,4 +198,7 @@ describe("POST /api/events", () => {
 			.expect(400);
 		expect(message).toBe("Bad Request");
 	});
+	test.todo(
+		"should respond with a single event object if body has the required fields and ignores fields that aren't required"
+	);
 });
