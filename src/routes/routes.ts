@@ -1,5 +1,5 @@
 // In your routes file
-import { FastifyInstance } from "fastify";
+import { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
 import {
   getAllUsers,
   getAllEvents,
@@ -9,6 +9,19 @@ import {
   postAnEvent,
   patchEventHandler,
 } from "../controllers/controllers";
+
+import endpoints from "../endpoints";
+
+export function getApiDocumentation(fastify: FastifyInstance) {
+  fastify.get("/api", async (req: FastifyRequest, reply: FastifyReply) => {
+    try {
+      const api = await reply.code(200).send({ endpoints });
+    } catch (error) {
+      console.error("Error fetching Api Documentation", error);
+      throw error;
+    }
+  });
+}
 
 export function getRoutes(fastify: FastifyInstance) {
   fastify.get("/api/users", getAllUsers);
