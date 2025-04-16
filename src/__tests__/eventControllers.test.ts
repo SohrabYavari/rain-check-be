@@ -24,11 +24,12 @@ describe("GET /api/events", () => {
 			expect(typeof event.title).toBe("string");
 			expect(typeof event.description).toBe("string");
 			expect(typeof event.date).toBe("string");
+			expect(typeof event.time).toBe("string");
 			expect(typeof event.location).toBe("string");
 			expect(typeof event.created_by).toBe("string");
 			expect(typeof event.invited).toBe("string");
-			expect(typeof event.host_flaked).toBe("number");
-			expect(typeof event.invitee_flaked).toBe("number");
+			expect(typeof event.host_flaked).toBe("boolean");
+			expect(typeof event.invitee_flaked).toBe("boolean");
 		});
 	});
 });
@@ -43,12 +44,13 @@ describe("GET /api/events/:event_id", () => {
 				event_id: 1,
 				title: "title one",
 				description: "event description",
-				date: "2025-04-11T17:00:00.000Z",
+				date: "2025-04-10T23:00:00.000Z",
+				time: "18:00:00",
 				location: "locaiton",
 				created_by: "sam",
 				invited: "steph",
-				host_flaked: 0,
-				invitee_flaked: 0,
+				host_flaked: false,
+				invitee_flaked: false,
 			},
 		]);
 	});
@@ -56,6 +58,75 @@ describe("GET /api/events/:event_id", () => {
 	test.todo(
 		"404 : Responds with Not Found error status if an valid event_id is input but doesn't exist in the database"
 	);
+});
+
+describe("PATCH /api/event/:event_id", () => {
+	describe("inviteFriend", () => {
+		it("should respond with a single event object with the updated invitee property", async () => {
+			const {
+				body: { event },
+			} = await request(server.server)
+				.patch("/api/events/4?action=inviteFriend")
+				.send({ invited: "sam" })
+				.expect(201);
+			expect(event[0]).toMatchObject({
+				event_id: 4,
+				title: "title four",
+				description: "event description",
+				date: "2025-04-30T23:00:00.000Z",
+				time: "17:00:00",
+				location: "location",
+				created_by: "lee",
+				invited: "sam",
+				host_flaked: true,
+				invitee_flaked: true,
+			});
+		});
+	});
+	describe("inviteeFlaked", () => {
+		it("should respond with a single event object with the updated inviteeFlaked prop", async () => {
+			const {
+				body: { data },
+			} = await request(server.server)
+				.patch("/api/events/2?action=inviteeFlaked")
+				.send({ invitee_flaked: true })
+				.expect(201);
+			expect(data[0]).toMatchObject({
+				event_id: 2,
+				title: "title two",
+				description: "event description",
+				date: "2025-05-01T23:00:00.000Z",
+				time: "20:00:00",
+				location: "location",
+				created_by: "deedee",
+				invited: "lee",
+				host_flaked: false,
+				invitee_flaked: true,
+			});
+		});
+	});
+	describe("hostFlaked", () => {
+		it("should respond with a single event object with the up", async () => {
+			const {
+				body: { data },
+			} = await request(server.server)
+				.patch("/api/events/3?action=hostFlaked")
+				.send({ host_flaked: true })
+				.expect(201);
+			expect(data[0]).toMatchObject({
+				event_id: 3,
+				title: "title three",
+				description: "event description",
+				date: "2025-04-19T23:00:00.000Z",
+				time: "17:30:00",
+				location: "location",
+				created_by: "connor",
+				invited: "sam",
+				host_flaked: true,
+				invitee_flaked: true,
+			});
+		});
+	});
 });
 
 describe("POST /api/events", () => {
@@ -67,31 +138,31 @@ describe("POST /api/events", () => {
 			.send({
 				title: "title five",
 				description: "event description!",
-				date: "2025-06-16 16:00:00",
+				date:"2025-06-14",
+				time: "16:00:00",
 				location: "London",
 				created_by: "deedee",
 				invited: null,
-				host_flaked: 0,
-				invitee_flaked: 0,
+				host_flaked: false,
+				invitee_flaked: false,
 			})
 			.expect(201);
-		expect(event).toMatchObject(
-			{
-				event_id: 5,
-				title: "title five",
-				description: "event description!",
-				date: "2025-06-16T15:00:00.000Z",
-				location: "London",
-				created_by: "deedee",
-				invited: null,
-				host_flaked: 0,
-				invitee_flaked: 0,
-			},
-		);
+		expect(event).toMatchObject({
+			event_id: 5,
+			title: "title five",
+			description: "event description!",
+			date: "2025-06-13T23:00:00.000Z",
+			time: "16:00:00",
+			location: "London",
+			created_by: "deedee",
+			invited: null,
+			host_flaked: false,
+			invitee_flaked: false,
+		});
 	});
 
-    it('should respond with a Bad Request error status if an invalid body is sent', async () => {
-        const {
+	it("should respond with a 400:Bad Request error status if an invalid body is sent", async () => {
+		const {
 			body: { message },
 		} = await request(server.server)
 			.post("/api/events")
@@ -99,11 +170,10 @@ describe("POST /api/events", () => {
 				title: "title six",
 				description: "event description!",
 				date: "2025-06-16 16:00:00",
-				location: "London",
+				location: "Bristol",
 				created_by: "deedee",
 			})
-			.expect(404)
-            expect(message).toBe("Bad Request"); 
-    });
-
+			.expect(400);
+		expect(message).toBe("Bad Request");
+	});
 });

@@ -1,14 +1,14 @@
 import { FastifyReply, FastifyRequest } from "fastify";
 import {
-  fetchUsers,
-  fetchEvents,
-  fetchEventByUser,
-  fetchEventById,
-  fetchUser,
-  inviteeFlaked,
-  hostFlaked,
-  addEvent,
-  inviteFriend,
+	fetchUsers,
+	fetchEvents,
+	fetchEventByUser,
+	fetchEventById,
+	fetchUser,
+	inviteeFlaked,
+	hostFlaked,
+	addEvent,
+	inviteFriend,
 } from "../models/models";
 import { TEventsData, TUsersData, PatchActions } from "../types/TData";
 
@@ -119,81 +119,91 @@ export async function markHostFlaked(
 	}
 }
 export async function setInvitedFriend(
-  request: FastifyRequest<{ Params: TEventsData }>,
-  reply: FastifyReply
+	request: FastifyRequest<{ Params: TEventsData }>,
+	reply: FastifyReply
 ) {
-  try {
-    const { event_id } = request.params;
-    const { invited } = request.body as { invited: string };
+	try {
+		const { event_id } = request.params;
+		const { invited } = request.body as { invited: string };
 
-    const event = await inviteFriend(invited, event_id);
-    return reply.code(201).send({ event });
-  } catch (error) {
-    return reply.status(500).send({ message: "Internal Server Error" });
-  }
+		const event = await inviteFriend(invited, event_id);
+		return reply.code(201).send({ event });
+	} catch (error) {
+		return reply.status(500).send({ message: "Internal Server Error" });
+	}
 }
 export async function patchEventHandler(
-  request: FastifyRequest<{
-    Params: TEventsData;
-    Querystring: { action: string };
-  }>,
-  reply: FastifyReply
+	request: FastifyRequest<{
+		Params: TEventsData;
+		Querystring: { action: string };
+	}>,
+	reply: FastifyReply
 ) {
-  const { action } = request.query;
+	const { action } = request.query;
 
-  try {
-    switch (action) {
-      case PatchActions.InviteeFlaked:
-        return await markInviteeFlaked(request, reply);
+	try {
+		switch (action) {
+			case PatchActions.InviteeFlaked:
+				return await markInviteeFlaked(request, reply);
 
-      case PatchActions.HostFlaked:
-        return await markHostFlaked(request, reply);
+			case PatchActions.HostFlaked:
+				return await markHostFlaked(request, reply);
 
-      case PatchActions.InviteFriend:
-        return await setInvitedFriend(request, reply);
+			case PatchActions.InviteFriend:
+				return await setInvitedFriend(request, reply);
 
-      default:
-        return reply.status(400).send({ message: "Invalid action type" });
-    }
-  } catch (error) {
-    console.error("Error in patchEventHandler:", error);
-    return reply.status(500).send({ message: "Unexpected error" });
-  }
+			default:
+				return reply.status(400).send({ message: "Invalid action type" });
+		}
+	} catch (error) {
+		console.error("Error in patchEventHandler:", error);
+		return reply.status(500).send({ message: "Unexpected error" });
+	}
 }
-
 
 //!POST a new event to certain user
 export async function postAnEvent(
 	request: FastifyRequest<{ Body: TEventsData }>,
 	reply: FastifyReply
 ) {
-  try {
-    const {
-      title,
-      description,
-      date,
-      time,
-      location,
-      created_by,
-      invited,
-      host_flaked,
-      invitee_flaked,
-    } = request.body;
+	try {
+		const {
+			title,
+			description,
+			date,
+			time,
+			location,
+			created_by,
+			invited,
+			host_flaked,
+			invitee_flaked,
+		} = request.body;
 
-    const event = await addEvent(
-      title,
-      description,
-      date,
-      time,
-      location,
-      created_by,
-      invited,
-      host_flaked,
-      invitee_flaked
-    );
-    return reply.code(201).send({ event });
-  } catch (err) {
-    return reply.status(500).send({ message: "Internal Server Error" });
-  }
-
+		//find a way to move this to the models
+		if (
+			!title ||
+			!description ||
+			!date ||
+			!location ||
+			!created_by ||
+			host_flaked === undefined ||
+			invitee_flaked === undefined
+		) {
+			return reply.status(400).send({ message: "Bad Request" });
+		}
+		const event = await addEvent(
+			title,
+			description,
+			date,
+			time,
+			location,
+			created_by,
+			invited,
+			host_flaked,
+			invitee_flaked
+		);
+		return reply.code(201).send({ event });
+	} catch (err) {
+		return reply.status(500).send({ message: "Internal Server Error" });
+	}
 }
