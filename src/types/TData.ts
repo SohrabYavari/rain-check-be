@@ -3,11 +3,12 @@ export type TEventsData = {
   title: string;
   description: string;
   date: string;
+  time: string;
   location: string;
   created_by: string;
   invited: string;
-  host_flaked: number;
-  invitee_flaked: number;
+  host_flaked: boolean;
+  invitee_flaked: boolean;
 };
 
 export type TUsersData = {

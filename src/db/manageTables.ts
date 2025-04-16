@@ -22,7 +22,8 @@ export async function createEventsTable() {
       event_id SERIAL PRIMARY KEY,
       title VARCHAR(100) NOT NULL,
       description TEXT NOT NULL,
-      date TIMESTAMPTZ NOT NULL,
+      date DATE NOT NULL,
+      time TIME NOT NULL,
       location TEXT NOT NULL,
       created_by TEXT NOT NULL,
       invited TEXT,
@@ -56,14 +57,15 @@ export async function seedUsers(users: TUsersData[]) {
 
 export async function seedEvents(events: TEventsData[]) {
   const values = events.map((_, i) => {
-    const offset = i * 8;
-    return `($${offset + 1}, $${offset + 2}, $${offset + 3}, $${offset + 4}, $${offset + 5}, $${offset + 6}, $${offset + 7}, $${offset + 8})`;
+    const offset = i * 9;
+    return `($${offset + 1}, $${offset + 2}, $${offset + 3}, $${offset + 4}, $${offset + 5}, $${offset + 6}, $${offset + 7}, $${offset + 8}, $${offset + 9})`;
   }).join(", ");
 
   const flat = events.flatMap(event => [
     event.title,
     event.description,
     event.date,
+    event.time,
     event.location,
     event.created_by,
     event.invited,
@@ -77,6 +79,7 @@ export async function seedEvents(events: TEventsData[]) {
       title,
       description,
       date,
+      time,
       location,
       created_by,
       invited,

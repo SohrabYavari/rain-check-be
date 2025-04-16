@@ -91,11 +91,12 @@ export async function addEvent(
   title: string,
   description: string,
   date: string,
+  time: string,
   location: string,
   created_by: string,
   invited: string,
-  host_flaked: number,
-  invitee_flaked: number
+  host_flaked: boolean,
+  invitee_flaked: boolean
 ) {
   try {
     const insertQuery = `
@@ -103,13 +104,14 @@ export async function addEvent(
         title, 
         description, 
         date, 
+        time,
         location, 
         created_by, 
         invited, 
         host_flaked, 
         invitee_flaked
       )
-      VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
       RETURNING *;
     `;
 
@@ -117,6 +119,7 @@ export async function addEvent(
       title,
       description,
       date,
+      time,
       location,
       created_by,
       invited,
