@@ -20,6 +20,7 @@ if (process.env.DATABASE_URL) {
     password: dbUrl.password,
     database: dbUrl.pathname.slice(1),
     port: Number(dbUrl.port),
+    ssl: { rejectUnauthorized: false },
   };
 } else if (process.env.DB_DATABASE) {
   //! Local PostgresQL config
