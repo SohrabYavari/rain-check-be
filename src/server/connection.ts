@@ -1,4 +1,4 @@
-import mysql from "mysql2/promise";
+import {Pool} from 'pg'
 import dotenv from "dotenv";
 import path from "path";
 
@@ -12,10 +12,8 @@ if (ENV !== "prod") {
 let config: any;
 
 
-//* Hosting db with JAWSDB_URL (Heroku)
-//* With the url, use the URL class to split the required fields to be used.
-if (process.env.JAWSDB_URL) {
-  const dbUrl = new URL(process.env.JAWSDB_URL);
+if (process.env.DATABASE_URL) {
+  const dbUrl = new URL(process.env.DATABASE_URL);
   config = {
     host: dbUrl.hostname,
     user: dbUrl.username,
@@ -24,20 +22,16 @@ if (process.env.JAWSDB_URL) {
     port: Number(dbUrl.port),
   };
 } else if (process.env.DB_DATABASE) {
-  //! Local db files
+  //! Local PostgresQL config
   config = {
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_DATABASE,
-    port: Number(process.env.DB_PORT),
+    host: process.env.PGHOST,
+    user: process.env.PGUSER,
+    password: process.env.PGPASSWORD,
+    database: process.env.PGDATABASE,
+    port: Number(process.env.PGPORT),
   };
-} else {
-  throw new Error(
-    "No database configuration found. Set JAWSDB_URL or individual DB_* variables."
-  );
-}
+} 
 
-const db = mysql.createPool(config);
+const db = new Pool(config);
 
 export default db;

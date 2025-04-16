@@ -15,3 +15,10 @@ export type TUsersData = {
   email: string;
   password: string;
 };
+
+// actions enum
+export enum PatchActions {
+  InviteeFlaked = "inviteeFlaked",
+  HostFlaked = "hostFlaked",
+  InviteFriend = "inviteFriend",
+}
