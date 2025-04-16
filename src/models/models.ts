@@ -55,7 +55,7 @@ export async function fetchUser(username: string) {
 //! Updating the flakers on the DB
 export async function inviteeFlaked(event_id: number) {
   try {
-    await db.query("UPDATE events SET invitee_flaked = 1 WHERE event_id = $1", [event_id]);
+    await db.query("UPDATE events SET invitee_flaked = true WHERE event_id = $1", [event_id]);
     const { rows } = await db.query("SELECT * FROM events WHERE event_id = $1", [event_id]);
     return rows;
   } catch (error) {
@@ -66,7 +66,7 @@ export async function inviteeFlaked(event_id: number) {
 
 export async function hostFlaked(event_id: number) {
   try {
-    await db.query("UPDATE events SET host_flaked = 1 WHERE event_id = $1", [event_id]);
+    await db.query("UPDATE events SET host_flaked = true WHERE event_id = $1", [event_id]);
     const { rows } = await db.query("SELECT * FROM events WHERE event_id = $1", [event_id]);
     return rows;
   } catch (error) {
