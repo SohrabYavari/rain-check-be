@@ -59,7 +59,7 @@ export async function seedEvents(events: TEventsData[]) {
   const values = events.map((_, i) => {
     const offset = i * 9;
     return `($${offset + 1}, $${offset + 2}, $${offset + 3}, $${offset + 4}, $${offset + 5}, $${offset + 6}, $${offset + 7}, $${offset + 8}, $${offset + 9})`;
-  }).join(", ");
+  })
 
   const flat = events.flatMap(event => [
     event.title,
