@@ -10,6 +10,7 @@ import {
 const server = Fastify({ logger: true });
 server.register(cors, {
   origin: true,
+  methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE', 'OPTIONS']
 });
 
 server.register(getApiDocumentation);

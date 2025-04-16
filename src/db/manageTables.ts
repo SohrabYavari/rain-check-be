@@ -22,7 +22,7 @@ export async function createEventsTable() {
       event_id SERIAL PRIMARY KEY,
       title VARCHAR(100) NOT NULL,
       description TEXT NOT NULL,
-      date DATE NOT NULL,
+      date DATE NOT NULL DEFAULT ,
       time TIME NOT NULL,
       location TEXT NOT NULL,
       created_by TEXT NOT NULL,
