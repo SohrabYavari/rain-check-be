@@ -47,12 +47,13 @@ describe("testing /api/users endpoint", () => {
         event_id: 3,
         title: "title three",
         description: "event description",
-        date: "2025-04-20T16:30:00.000Z",
+        date: "2025-04-19T23:00:00.000Z",
+        time: "17:30:00",
         location: "location",
         created_by: "connor",
         invited: "sam",
-        host_flaked: 0,
-        invitee_flaked: 1,
+        host_flaked: false,
+        invitee_flaked: true,
       },
     ]);
   });
