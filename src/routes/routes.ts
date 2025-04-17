@@ -8,6 +8,7 @@ import {
   getUser,
   postAnEvent,
   patchEventHandler,
+  deleteEvent,
 } from "../controllers/controllers";
 
 import endpoints from "../endpoints";
@@ -37,4 +38,8 @@ export function patchFlaked(fastify: FastifyInstance) {
 
 export function postRoutes(fastify: FastifyInstance) {
   fastify.post("/api/events", postAnEvent);
+}
+
+export function deleteRoutes(fastify: FastifyInstance) {
+  fastify.delete("/api/events/:event_id", deleteEvent);
 }

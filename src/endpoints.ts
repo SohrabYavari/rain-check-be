@@ -150,6 +150,10 @@ const endpoints: { [key: string]: Endpoint } = {
       invitee_flaked: false,
     },
   },
+  "DELETE: /api/events/:event_id": {
+    description: 'deletes the given event when given the event_id',
+    "example-response": {}
+  }
 };
 
 export default endpoints;

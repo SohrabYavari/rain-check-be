@@ -9,6 +9,7 @@ import {
   hostFlaked,
   addEvent,
   inviteFriend,
+  removeEvent,
 } from "../models/models";
 import { TEventsData, TUsersData, PatchActions } from "../types/TData";
 
@@ -212,6 +213,21 @@ export async function postAnEvent(
     );
     return reply.code(201).send({ event });
   } catch (err) {
+    return reply.status(500).send({ message: "Internal Server Error" });
+  }
+}
+
+//! DELETE event
+export async function deleteEvent(
+  request: FastifyRequest<{ Params: TEventsData }>,
+  reply: FastifyReply
+) {
+  try {
+    const { event_id } = request.params;
+    await removeEvent(event_id);
+    reply.code(204)
+  } catch (error) {
+    console.error("Delete event failed:", error);
     return reply.status(500).send({ message: "Internal Server Error" });
   }
 }
