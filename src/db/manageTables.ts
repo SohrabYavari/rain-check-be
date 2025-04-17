@@ -23,7 +23,7 @@ export async function createEventsTable() {
       title VARCHAR(100) NOT NULL,
       description TEXT NOT NULL,
       date DATE NOT NULL,
-      time TIME NOT NULL,
+      time TIME,
       location TEXT NOT NULL,
       created_by TEXT NOT NULL,
       invited TEXT,
