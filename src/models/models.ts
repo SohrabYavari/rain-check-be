@@ -10,7 +10,6 @@ export async function fetchUsers() {
     throw error;
   }
 }
-
 export async function fetchEvents() {
   try {
     const { rows } = await db.query("SELECT * FROM events");
@@ -24,27 +23,43 @@ export async function fetchEvents() {
 //! Fetch single user and event from DB
 export async function fetchEventById(event_id: number) {
   try {
-    const { rows } = await db.query("SELECT * FROM events WHERE event_id = $1", [event_id]);
+    const { rows } = await db.query(
+      "SELECT * FROM events WHERE event_id = $1",
+      [event_id]
+    );
     return rows;
   } catch (error) {
     console.error("Error fetching event:", error);
     throw error;
   }
 }
-
 export async function fetchEventByUser(created_by: string) {
   try {
-    const { rows } = await db.query("SELECT * FROM events WHERE created_by = $1", [created_by]);
+    const eventsCreated = await db.query(
+      "SELECT * FROM events WHERE created_by = $1",
+      [created_by]
+    );
+
+    const eventsInvited = await db.query(
+      `SELECT * FROM  events WHERE invited = $1`,
+      [created_by]
+    );
+
+    const rows = {
+      events_created: eventsCreated.rows,
+      events_invited: eventsInvited.rows,
+    };
     return rows;
   } catch (error) {
     console.error("Error fetching user's events:", error);
     throw error;
   }
 }
-
 export async function fetchUser(username: string) {
   try {
-    const { rows } = await db.query("SELECT * FROM users WHERE username = $1", [username]);
+    const { rows } = await db.query("SELECT * FROM users WHERE username = $1", [
+      username,
+    ]);
     return rows;
   } catch (error) {
     console.error("Error fetching user:", error);
@@ -55,30 +70,34 @@ export async function fetchUser(username: string) {
 //! Updating the flakers on the DB
 export async function inviteeFlaked(event_id: number) {
   try {
-    await db.query("UPDATE events SET invitee_flaked = true WHERE event_id = $1", [event_id]);
-    const { rows } = await db.query("SELECT * FROM events WHERE event_id = $1", [event_id]);
+    const { rows } = await db.query(
+      "UPDATE events SET invitee_flaked = true WHERE event_id = $1 RETURNING *",
+      [event_id]
+    );
     return rows;
   } catch (error) {
     console.error("Error patching event details:", error);
     throw error;
   }
 }
-
 export async function hostFlaked(event_id: number) {
   try {
-    await db.query("UPDATE events SET host_flaked = true WHERE event_id = $1", [event_id]);
-    const { rows } = await db.query("SELECT * FROM events WHERE event_id = $1", [event_id]);
+    const { rows } = await db.query(
+      "UPDATE events SET host_flaked = true WHERE event_id = $1 RETURNING *",
+      [event_id]
+    );
     return rows;
   } catch (error) {
     console.error("Error patching event details:", error);
     throw error;
   }
 }
-
 export async function inviteFriend(username: string, event_id: number) {
   try {
-    await db.query("UPDATE events SET invited = $1 WHERE event_id = $2", [username, event_id]);
-    const { rows } = await db.query("SELECT * FROM events WHERE event_id = $1", [event_id]);
+    const { rows } = await db.query(
+      "UPDATE events SET invited = $1 WHERE event_id = $2 RETURNING *",
+      [username, event_id]
+    );
     return rows;
   } catch (error) {
     console.error("Error updating event:", error);
