@@ -152,3 +152,16 @@ export async function addEvent(
     throw error;
   }
 }
+
+//! DELETE post
+export async function removeEvent(event_id: number) {
+  try {
+    const { rows } = await db.query(`DELETE FROM events WHERE event_id = $1`, [
+      event_id,
+    ]);
+    return rows[0]
+  } catch (error) {
+    console.error("Error deleting event", error);
+    throw error;
+  }
+}
