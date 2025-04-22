@@ -3,7 +3,7 @@ import { TEventsData } from "../../../types/TData";
 export const events: TEventsData[] = [
   {
     event_id: 1,
-    event_img_url: "https://images.unsplash.com/photo-1590080874690-6847f9c4a6f6",
+    event_img_url: "https://images.unsplash.com/photo-1558168667-0b770c6957aa?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     title: "Northcoders Graduation",
     description: "drinks and snacks",
     date: "2025-04-11",
@@ -16,7 +16,7 @@ export const events: TEventsData[] = [
   },
   {
     event_id: 2,
-    event_img_url: "https://images.unsplash.com/photo-1578898886721-e021c0bba413",
+    event_img_url: "https://images.unsplash.com/photo-1696105538708-6be6c90707a1?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     title: "Bouldering Bash",
     description: "Let’s climb until we drop!",
     date: "2025-05-03",
@@ -29,7 +29,7 @@ export const events: TEventsData[] = [
   },
   {
     event_id: 3,
-    event_img_url: "https://images.unsplash.com/photo-1571260899304-425eee4c7efc",
+    event_img_url: "https://images.unsplash.com/photo-1571947221289-ed32f8faad61?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     title: "Craft Beer Crawl",
     description: "Explore the best brews in town 🍻",
     date: "2025-05-17",
@@ -42,7 +42,7 @@ export const events: TEventsData[] = [
   },
   {
     event_id: 4,
-    event_img_url: "https://images.unsplash.com/photo-1587300003388-59208cc962cb",
+    event_img_url: "https://images.unsplash.com/photo-1639599823238-d185e9dec39d?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     title: "Karaoke Night",
     description: "Singing, drinks, and good vibes",
     date: "2025-05-02",
@@ -55,7 +55,7 @@ export const events: TEventsData[] = [
   },
   {
     event_id: 5,
-    event_img_url: "https://images.unsplash.com/photo-1600628422018-78b8f1449d6c",
+    event_img_url: "https://images.unsplash.com/photo-1732850714203-d40cd333968e?q=80&w=1469&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     title: "Potluck Dinner",
     description: "Bring your favorite dish and share!",
     date: "2025-04-22",
@@ -68,7 +68,7 @@ export const events: TEventsData[] = [
   },
   {
     event_id: 6,
-    event_img_url: "https://images.unsplash.com/photo-1605296867424-35fc25c9219e",
+    event_img_url: "https://images.unsplash.com/photo-1547638375-ebf04735d792?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     title: "Board Game Bonanza",
     description: "Catan, Risk, and more 🧠🎲",
     date: "2025-04-28",
@@ -81,7 +81,7 @@ export const events: TEventsData[] = [
   },
   {
     event_id: 7,
-    event_img_url: "https://images.unsplash.com/photo-1598887142486-d91b5e10f8ce",
+    event_img_url: "https://images.unsplash.com/photo-1674973176998-f3b178ac11c7?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     title: "Movie Marathon",
     description: "Back-to-back classics, popcorn provided",
     date: "2025-04-20",
@@ -94,7 +94,7 @@ export const events: TEventsData[] = [
   },
   {
     event_id: 8,
-    event_img_url: "https://images.unsplash.com/photo-1572656631135-d473e1d5bd54",
+    event_img_url: "https://images.unsplash.com/photo-1696091811927-6b9552931f70?q=80&w=1469&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     title: "Sushi Making Class",
     description: "Roll your own and eat it too 🍣",
     date: "2025-05-05",
@@ -107,7 +107,7 @@ export const events: TEventsData[] = [
   },
   {
     event_id: 9,
-    event_img_url: "https://images.unsplash.com/photo-1532634896-26909d0dcb98",
+    event_img_url: "https://images.unsplash.com/photo-1678382135514-ba040f3d14b3?q=80&w=1353&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     title: "Paint & Sip",
     description: "Art + wine = good times",
     date: "2025-05-12",
@@ -120,7 +120,7 @@ export const events: TEventsData[] = [
   },
   {
     event_id: 10,
-    event_img_url: "https://images.unsplash.com/photo-1517649763962-0c623066013b",
+    event_img_url: "hhttps://images.unsplash.com/photo-1568576841980-15fa6e490333?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     title: "Football Five-a-Side",
     description: "Friendly match at the local pitch",
     date: "2025-05-01",
@@ -133,7 +133,7 @@ export const events: TEventsData[] = [
   },
   {
     event_id: 11,
-    event_img_url: "https://images.unsplash.com/photo-1625947320038-7f2207fccc4e",
+    event_img_url: "https://plus.unsplash.com/premium_photo-1661730329741-b3bf77019b39?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     title: "Taco Tuesday",
     description: "Unlimited tacos, say less 🌮",
     date: "2025-05-06",
@@ -146,7 +146,7 @@ export const events: TEventsData[] = [
   },
   {
     event_id: 12,
-    event_img_url: "https://images.unsplash.com/photo-1610372054720-f6d2d2f1313a",
+    event_img_url: "https://images.unsplash.com/photo-1569002925653-ed18f55d7292?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     title: "Escape Room Challenge",
     description: "Let’s see who panics first 🔐",
     date: "2025-05-09",
@@ -159,7 +159,7 @@ export const events: TEventsData[] = [
   },
   {
     event_id: 13,
-    event_img_url: "https://images.unsplash.com/photo-1628882843100-1cf27f9c0b42",
+    event_img_url: "https://images.unsplash.com/photo-1564678472217-3b1b598d20ca?q=80&w=1288&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     title: "Indoor Climbing Challenge",
     description: "Climbing walls of doom 🧗‍♂️💥",
     date: "2025-05-10",
@@ -172,7 +172,7 @@ export const events: TEventsData[] = [
   },
   {
     event_id: 14,
-    event_img_url: "https://images.unsplash.com/photo-1613145997938-e92d8203d9e3",
+    event_img_url: "https://images.unsplash.com/photo-1658238124320-de016fd45140?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     title: "Vegan Brunch Club",
     description: "Smoothies, avo toast, and more 🥑",
     date: "2025-04-26",
@@ -185,7 +185,7 @@ export const events: TEventsData[] = [
   },
   {
     event_id: 15,
-    event_img_url: "https://images.unsplash.com/photo-1498654200943-1088dd4438ae",
+    event_img_url: "https://images.unsplash.com/photo-1707296814743-2e08aff032f2?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     title: "Sunset Picnic",
     description: "Chill evening with a view 🌇",
     date: "2025-05-15",
