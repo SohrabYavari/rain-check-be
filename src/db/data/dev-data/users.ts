@@ -16,7 +16,7 @@ export const users: TUsersData[] = [
   },
   {
     username: "connor",
-    avatar_img_url: "",
+    avatar_img_url: "https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExNG1ldmNjcjN0ZGx3bWJsdW85ZjZtd2xlNmt2eGh0MW9oZmo5bmR1YSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/7AXWA5riPxp60/giphy.gif",
     email: "connor@raincheckltd.com",
     password: "password",
   },
