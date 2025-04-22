@@ -3,6 +3,7 @@ import server from "../server/server";
 import seed from "../db/seed";
 import db from "../server/connection";
 import { testData } from "../db/data/test-data/index";
+import { TEventsData } from "../types/TData";
 
 beforeAll(async () => {
   await seed(testData);
@@ -19,7 +20,7 @@ describe("GET /api/events", () => {
     const {
       body: { events },
     } = await request(server.server).get("/api/events").expect(200);
-    events.forEach((event: any) => {
+    events.forEach((event: TEventsData) => {
       expect(typeof event.event_id).toBe("number");
       expect(typeof event.title).toBe("string");
       expect(typeof event.description).toBe("string");
@@ -42,7 +43,7 @@ describe("GET /api/events/:event_id", () => {
 
     expect(event[0]).toEqual({
       event_id: 1,
-      event_img_url: "",
+      event_img_url: null,
       title: "title one",
       description: "event description",
       date: "2025-04-10T23:00:00.000Z",
@@ -56,17 +57,18 @@ describe("GET /api/events/:event_id", () => {
   });
 
   it("should respond with a 400 when given incorrect paramater", async () => {
-    const { body } = await request(server.server).get("/api/events/one").expect(400);
-	expect(body.message).toBe('Bad Request, parameter must be a number')
-
+    const { body } = await request(server.server)
+      .get("/api/events/one")
+      .expect(400);
+    expect(body.message).toBe("Bad Request, parameter must be a number");
   });
 
-  it.skip("should  respond with 404 error status if a valid event_id is input but doesn't exist in the database", async () => {
-	const { body } = await request(server.server).get("/api/events/100").expect(404);
-	console.log(body.event)
-	expect(body.message).toBe('No event found')
-
-  })
+  it("should  respond with 404 error status if a valid event_id is input but doesn't exist in the database", async () => {
+    const { body } = await request(server.server)
+      .get("/api/events/70")
+      .expect(404);
+    expect(body.message).toBe("No event found");
+  });
 });
 
 describe("PATCH /api/event/:event_id", () => {
@@ -76,7 +78,7 @@ describe("PATCH /api/event/:event_id", () => {
         body: { event },
       } = await request(server.server)
         .patch("/api/events/4?action=inviteFriend")
-        .send({ invited: "sam" })
+        .send({ invited: "connor" })
         .expect(201);
       expect(event[0]).toMatchObject({
         event_id: 4,
@@ -86,25 +88,29 @@ describe("PATCH /api/event/:event_id", () => {
         time: "17:00:00",
         location: "location",
         created_by: "lee",
-        invited: "sam",
+        invited: "connor",
         host_flaked: true,
         invitee_flaked: true,
       });
     });
-    test.todo(
-      "should respond with the updated event object as long as the body has the required field"
-    );
-    test.todo("should respond with a 400 if the event_id is invalid");
-    test.todo(
-      "should respond with a 404 if the event_id is valid but not in the db yet"
-    );
-    test.todo(
-      "should respond with a 400 if required field isn'\t in the sent body"
-    );
-    test.todo(
-      "should respond with a 400 if required field doesn'\t have a valid value"
-    );
+    it("should respond with a 400 error when given the wrong action query string", async () => {
+      const { body } = await request(server.server)
+        .patch("/api/events/4?action=invitemyfriends")
+        .send({ invited: "connor" })
+        .expect(400);
+
+      expect(body.message).toBe("Invalid action type");
+    });
+    it("should respond with a 400 error when given incorrect event_id", async () => {
+      const { body } = await request(server.server)
+        .patch("/api/events/four?action=inviteFriend")
+        .send({ invited: "connor" })
+        .expect(400);
+
+      expect(body.message).toBe("Bad Request");
+    });
   });
+
   describe("hostFlaked", () => {
     it("should respond with a single event object with the up", async () => {
       const {
@@ -126,20 +132,24 @@ describe("PATCH /api/event/:event_id", () => {
         invitee_flaked: true,
       });
     });
-    test.todo(
-      "should respond with the updated event object as long as the body has the required field"
-    );
-    test.todo("should respond with a 400 if the event_id is invalid");
-    test.todo(
-      "should respond with a 404 if the event_id is valid but not in the db yet"
-    );
-    test.todo(
-      "should respond with a 400 if required field isn'\t in the sent body"
-    );
-    test.todo(
-      "should respond with a 400 if required field doesn'\t have a valid value"
-    );
+    it("should respond with a 400 error when given the wrong action query string", async () => {
+      const { body } = await request(server.server)
+        .patch("/api/events/3?action=flakeyHost")
+        .send({ host_flaked: false })
+        .expect(400);
+
+      expect(body.message).toBe("Invalid action type");
+    });
+    it("should respond with a 400 error when given incorrect event_id", async () => {
+      const { body } = await request(server.server)
+        .patch("/api/events/three?action=hostFlaked")
+        .send({ host_flaked: false })
+        .expect(400);
+
+      expect(body.message).toBe("Bad Request, parameter must be a number");
+    });
   });
+
   describe("inviteeFlaked", () => {
     it("should respond with a single event object with the updated inviteeFlaked prop", async () => {
       const {
@@ -161,19 +171,22 @@ describe("PATCH /api/event/:event_id", () => {
         invitee_flaked: true,
       });
     });
-    test.todo(
-      "should respond with the updated event object as long as the body has the required field"
-    );
-    test.todo("should respond with a 400 if the event_id is invalid");
-    test.todo(
-      "should respond with a 404 if the event_id is valid but not in the db yet"
-    );
-    test.todo(
-      "should respond with a 400 if required field isn'\t in the sent body"
-    );
-    test.todo(
-      "should respond with a 400 if required field doesn'\t have a valid value"
-    );
+    it("should respond with a 400 error when given the wrong action query string", async () => {
+      const { body } = await request(server.server)
+        .patch("/api/events/2?action=flakeyfriend")
+        .send({ invitee_flaked: false })
+        .expect(400);
+
+      expect(body.message).toBe("Invalid action type");
+    });
+    it("should respond with a 400 error when given incorrect event_id", async () => {
+      const { body } = await request(server.server)
+        .patch("/api/events/two?action=inviteeFlaked")
+        .send({ invitee_flaked: false })
+        .expect(400);
+
+      expect(body.message).toBe("Bad Request, parameter must be a number");
+    });
   });
 });
 
@@ -198,6 +211,7 @@ describe("POST /api/events", () => {
     expect(event).toMatchObject({
       event_id: 5,
       title: "title five",
+      event_img_url: null,
       description: "event description!",
       date: "2025-06-13T23:00:00.000Z",
       time: "16:00:00",
@@ -218,12 +232,8 @@ describe("POST /api/events", () => {
         description: "event description!",
         date: "2025-06-16 16:00:00",
         location: "Bristol",
-        created_by: "deedee",
       })
       .expect(400);
     expect(message).toBe("Bad Request");
   });
-  test.todo(
-    "should respond with a single event object if body has the required fields and ignores fields that aren't required"
-  );
 });
