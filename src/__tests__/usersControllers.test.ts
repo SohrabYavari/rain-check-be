@@ -44,16 +44,30 @@ describe("testing /api/users endpoint", () => {
 
     expect(events_by_user).toMatchObject([
       {
-        event_id: 3,
-        title: "title three",
-        description: "event description",
-        date: "2025-04-19T23:00:00.000Z",
-        time: "17:30:00",
-        location: "location",
         created_by: "connor",
-        invited: "sam",
+        date: "2025-04-19T23:00:00.000Z",
+        description: "event description",
+        event_id: 3,
+        event_img_url: "",
         host_flaked: false,
+        invited: "sam",
         invitee_flaked: true,
+        location: "location",
+        time: "17:30:00",
+        title: "title three",
+      },
+      {
+        created_by: "lee",
+        date: "2025-04-30T23:00:00.000Z",
+        description: "event description",
+        event_id: 4,
+        event_img_url: "",
+        host_flaked: true,
+        invited: "connor",
+        invitee_flaked: true,
+        location: "location",
+        time: "17:00:00",
+        title: "title four",
       },
     ]);
   });

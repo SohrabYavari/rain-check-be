@@ -1,18 +1,8 @@
-import db from "../server/connection";
+const eventsConnection = require("../server/connection").default;
 
-//! Fetch users and events from DB
-export async function fetchUsers() {
-  try {
-    const { rows } = await db.query("SELECT * FROM users");
-    return rows;
-  } catch (error) {
-    console.error("Error fetching users:", error);
-    throw error;
-  }
-}
 export async function fetchEvents() {
   try {
-    const { rows } = await db.query("SELECT * FROM events");
+    const { rows } = await eventsConnection.query("SELECT * FROM events");
     return rows;
   } catch (error) {
     console.error("Error fetching events:", error);
@@ -20,57 +10,20 @@ export async function fetchEvents() {
   }
 }
 
-//! Fetch single user and event from DB
+//! Fetch single user and event from eventsConnection
 export async function fetchEventById(event_id: number) {
-  try {
-    const { rows } = await db.query(
-      "SELECT * FROM events WHERE event_id = $1",
-      [event_id]
-    );
-    return rows;
-  } catch (error) {
-    console.error("Error fetching event:", error);
-    throw error;
-  }
-}
-export async function fetchEventByUser(created_by: string) {
-  try {
-    const eventsCreated = await db.query(
-      "SELECT * FROM events WHERE created_by = $1",
-      [created_by]
-    );
-
-    const eventsInvited = await db.query(
-      `SELECT * FROM  events WHERE invited = $1`,
-      [created_by]
-    );
-
-    const rows = {
-      events_created: eventsCreated.rows,
-      events_invited: eventsInvited.rows,
-    };
-    return rows;
-  } catch (error) {
-    console.error("Error fetching user's events:", error);
-    throw error;
-  }
-}
-export async function fetchUser(username: string) {
-  try {
-    const { rows } = await db.query("SELECT * FROM users WHERE username = $1", [
-      username,
-    ]);
-    return rows;
-  } catch (error) {
-    console.error("Error fetching user:", error);
-    throw error;
-  }
+  const { rows } = await eventsConnection.query(
+    "SELECT * FROM events WHERE event_id = $1",
+    [event_id]
+  );
+  
+  return rows;
 }
 
-//! Updating the flakers on the DB
+//! Updating the flakers on the eventsConnection
 export async function inviteeFlaked(event_id: number) {
   try {
-    const { rows } = await db.query(
+    const { rows } = await eventsConnection.query(
       "UPDATE events SET invitee_flaked = true WHERE event_id = $1 RETURNING *",
       [event_id]
     );
@@ -82,7 +35,7 @@ export async function inviteeFlaked(event_id: number) {
 }
 export async function hostFlaked(event_id: number) {
   try {
-    const { rows } = await db.query(
+    const { rows } = await eventsConnection.query(
       "UPDATE events SET host_flaked = true WHERE event_id = $1 RETURNING *",
       [event_id]
     );
@@ -94,7 +47,7 @@ export async function hostFlaked(event_id: number) {
 }
 export async function inviteFriend(username: string, event_id: number) {
   try {
-    const { rows } = await db.query(
+    const { rows } = await eventsConnection.query(
       "UPDATE events SET invited = $1 WHERE event_id = $2 RETURNING *",
       [username, event_id]
     );
@@ -105,7 +58,7 @@ export async function inviteFriend(username: string, event_id: number) {
   }
 }
 
-//! Adds new event object to the DB
+//! Adds new event object to the eventsConnection
 export async function addEvent(
   title: string,
   description: string,
@@ -134,7 +87,7 @@ export async function addEvent(
       RETURNING *;
     `;
 
-    const { rows } = await db.query(insertQuery, [
+    const { rows } = await eventsConnection.query(insertQuery, [
       title,
       description,
       date,
@@ -156,10 +109,11 @@ export async function addEvent(
 //! DELETE post
 export async function removeEvent(event_id: number) {
   try {
-    const { rows } = await db.query(`DELETE FROM events WHERE event_id = $1`, [
-      event_id,
-    ]);
-    return rows[0]
+    const { rows } = await eventsConnection.query(
+      `DELETE FROM events WHERE event_id = $1`,
+      [event_id]
+    );
+    return rows[0];
   } catch (error) {
     console.error("Error deleting event", error);
     throw error;

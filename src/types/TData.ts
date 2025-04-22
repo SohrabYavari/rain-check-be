@@ -1,5 +1,6 @@
 export type TEventsData = {
   event_id: number;
+  event_img_url: string | null;
   title: string;
   description: string;
   date: string;
@@ -13,11 +14,12 @@ export type TEventsData = {
 
 export type TUsersData = {
   username: string;
+  avatar_img_url: string | null;
   email: string;
   password: string;
 };
 
-// actions enum
+//? actions enum for patch func
 export enum PatchActions {
   InviteeFlaked = "inviteeFlaked",
   HostFlaked = "hostFlaked",

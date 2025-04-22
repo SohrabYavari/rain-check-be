@@ -4,6 +4,7 @@ export const events: TEventsData[] = [
   // Events by sam
   {
     event_id: 1,
+    event_img_url: "",
     title: "title one",
     description: "event description",
     date: "2025-04-11",
@@ -17,6 +18,7 @@ export const events: TEventsData[] = [
   // Events by deedee
   {
     event_id: 2,
+    event_img_url: "",
     title: "title two",
     description: "event description",
     date: "2025-05-02",
@@ -30,6 +32,7 @@ export const events: TEventsData[] = [
   // Events by connor
   {
     event_id: 3,
+    event_img_url: "",
     title: "title three",
     description: "event description",
     date: "2025-04-20",
@@ -43,6 +46,7 @@ export const events: TEventsData[] = [
   // Events by lee
   {
     event_id: 4,
+    event_img_url: "",
     title: "title four",
     description: "event description",
     date: "2025-05-01",

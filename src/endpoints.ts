@@ -70,36 +70,32 @@ const endpoints: { [key: string]: Endpoint } = {
   "GET /api/users/:created_by/events": {
     description: "serves an array of all events created by a user",
     "example-response": {
-      events_by_user: {
-        events_created: [
-          {
-            event_id: 4,
-            title: "small gig",
-            description: "music and vibes",
-            date: "2025-04-11T18:00:00.000Z",
-            time: "17:30:00",
-            location: "a random basement somewhere",
-            created_by: "lee",
-            invited: "sam",
-            host_flaked: false,
-            invitee_flaked: false,
-          },
-        ],
-        events_invited: [
-          {
-            event_id: 3,
-            title: "Minecraft LAN party",
-            description: "blocks and doritos",
-            date: "2025-04-11T18:00:00.000Z",
-            time: "20:00:00",
-            location: "Your house",
-            created_by: "steph",
-            invited: "lee",
-            host_flaked: false,
-            invitee_flaked: false,
-          },
-        ],
-      },
+      events_by_user: [
+        {
+          event_id: 3,
+          title: "Minecraft LAN party",
+          description: "blocks and doritos",
+          date: "2025-04-11T18:00:00.000Z",
+          time: "20:00:00",
+          location: "Your house",
+          created_by: "steph",
+          invited: "lee",
+          host_flaked: false,
+          invitee_flaked: false,
+        },
+        {
+          event_id: 4,
+          title: "small gig",
+          description: "music and vibes",
+          date: "2025-04-11T18:00:00.000Z",
+          time: "17:30:00",
+          location: "a random basement somewhere",
+          created_by: "lee",
+          invited: "sam",
+          host_flaked: false,
+          invitee_flaked: false,
+        },
+      ],
     },
   },
   "PATCH /api/events/:eventId": {
@@ -151,9 +147,9 @@ const endpoints: { [key: string]: Endpoint } = {
     },
   },
   "DELETE: /api/events/:event_id": {
-    description: 'deletes the given event when given the event_id',
-    "example-response": {}
-  }
+    description: "deletes the given event when given the event_id",
+    "example-response": {},
+  },
 };
 
 export default endpoints;

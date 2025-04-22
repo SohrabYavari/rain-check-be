@@ -4,6 +4,7 @@ export const events: TEventsData[] = [
   // Events by sam
   {
     event_id: 1,
+    event_img_url: "",
     title: "Northcoders Graduation",
     description: "drinks and snacks",
     date: "2025-04-11",
@@ -16,6 +17,7 @@ export const events: TEventsData[] = [
   },
   {
     event_id: 2,
+    event_img_url: "",
     title: "Bouldering Bash",
     description: "Let’s climb until we drop!",
     date: "2025-05-03",
@@ -28,6 +30,7 @@ export const events: TEventsData[] = [
   },
   {
     event_id: 3,
+    event_img_url: "",
     title: "Craft Beer Crawl",
     description: "Explore the best brews in town 🍻",
     date: "2025-05-17",
@@ -42,6 +45,7 @@ export const events: TEventsData[] = [
   // Events by deedee
   {
     event_id: 4,
+    event_img_url: "",
     title: "Karaoke Night",
     description: "Singing, drinks, and good vibes",
     date: "2025-05-02",
@@ -54,6 +58,7 @@ export const events: TEventsData[] = [
   },
   {
     event_id: 5,
+    event_img_url: "",
     title: "Potluck Dinner",
     description: "Bring your favorite dish and share!",
     date: "2025-04-22",
@@ -66,6 +71,7 @@ export const events: TEventsData[] = [
   },
   {
     event_id: 6,
+    event_img_url: "",
     title: "Board Game Bonanza",
     description: "Catan, Risk, and more 🧠🎲",
     date: "2025-04-28",
@@ -80,6 +86,7 @@ export const events: TEventsData[] = [
   // Events by connor
   {
     event_id: 7,
+    event_img_url: "",
     title: "Movie Marathon",
     description: "Back-to-back classics, popcorn provided",
     date: "2025-04-20",
@@ -92,6 +99,7 @@ export const events: TEventsData[] = [
   },
   {
     event_id: 8,
+    event_img_url: "",
     title: "Sushi Making Class",
     description: "Roll your own and eat it too 🍣",
     date: "2025-05-05",
@@ -104,6 +112,7 @@ export const events: TEventsData[] = [
   },
   {
     event_id: 9,
+    event_img_url: "",
     title: "Paint & Sip",
     description: "Art + wine = good times",
     date: "2025-05-12",
@@ -118,6 +127,7 @@ export const events: TEventsData[] = [
   // Events by lee
   {
     event_id: 10,
+    event_img_url: "",
     title: "Football Five-a-Side",
     description: "Friendly match at the local pitch",
     date: "2025-05-01",
@@ -130,6 +140,7 @@ export const events: TEventsData[] = [
   },
   {
     event_id: 11,
+    event_img_url: "",
     title: "Taco Tuesday",
     description: "Unlimited tacos, say less 🌮",
     date: "2025-05-06",
@@ -142,6 +153,7 @@ export const events: TEventsData[] = [
   },
   {
     event_id: 12,
+    event_img_url: "",
     title: "Escape Room Challenge",
     description: "Let’s see who panics first 🔐",
     date: "2025-05-09",
@@ -156,6 +168,7 @@ export const events: TEventsData[] = [
   // Events by steph
   {
     event_id: 13,
+    event_img_url: "",
     title: "Indoor Climbing Challenge",
     description: "Climbing walls of doom 🧗‍♂️💥",
     date: "2025-05-10",
@@ -168,6 +181,7 @@ export const events: TEventsData[] = [
   },
   {
     event_id: 14,
+    event_img_url: "",
     title: "Vegan Brunch Club",
     description: "Smoothies, avo toast, and more 🥑",
     date: "2025-04-26",
@@ -180,6 +194,7 @@ export const events: TEventsData[] = [
   },
   {
     event_id: 15,
+    event_img_url: "",
     title: "Sunset Picnic",
     description: "Chill evening with a view 🌇",
     date: "2025-05-15",

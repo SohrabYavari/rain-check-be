@@ -1,35 +1,16 @@
 import { FastifyReply, FastifyRequest } from "fastify";
 import {
-  fetchUsers,
   fetchEvents,
-  fetchEventByUser,
   fetchEventById,
-  fetchUser,
   inviteeFlaked,
   hostFlaked,
   addEvent,
   inviteFriend,
   removeEvent,
-} from "../models/models";
-import { TEventsData, TUsersData, PatchActions } from "../types/TData";
+} from "../models/events.models";
+import { TEventsData, PatchActions } from "../types/TData";
+import { eventNames } from "process";
 
-//! Get All users and events endpoints
-export async function getAllUsers(
-  request: FastifyRequest,
-  reply: FastifyReply
-) {
-  try {
-    const users = await fetchUsers();
-
-    if (!users) {
-      return reply.status(404).send({ message: "No users found" });
-    }
-
-    return reply.send({ users });
-  } catch (err) {
-    return reply.status(500).send({ message: "Internal Server Error" });
-  }
-}
 export async function getAllEvents(
   request: FastifyRequest,
   reply: FastifyReply
@@ -47,58 +28,27 @@ export async function getAllEvents(
   }
 }
 
-//! Get SINGLE user and event endpoint
 export async function getEvent(
   request: FastifyRequest<{ Params: TEventsData }>,
   reply: FastifyReply
 ) {
+  const { event_id } = request.params;
   try {
-    const { event_id } = request.params;
     const event = await fetchEventById(event_id);
 
-    if (!event) {
+    if (!event_id) {
       return reply.status(404).send({ message: "No event found" });
     }
 
     return reply.status(200).send({ event });
   } catch (err) {
-    return reply.status(500).send({ message: "Internal Server Error" });
-  }
-}
-export async function getEventByUser(
-  request: FastifyRequest<{ Params: TEventsData }>,
-  reply: FastifyReply
-) {
-  try {
-    const { created_by } = request.params;
-    const events_by_user = await fetchEventByUser(created_by);
-
-    if (!events_by_user) {
+    if (typeof event_id !== "number") {
       return reply
-        .status(404)
-        .send({ message: "This User has no events planned" });
+        .status(400)
+        .send({ message: "Bad Request, parameter must be a number" });
+    } else {
+      return reply.status(500).send({ message: "Internal Server Error" });
     }
-
-    return reply.send({ events_by_user });
-  } catch (err) {
-    return reply.status(500).send({ message: "Internal Server Error" });
-  }
-}
-export async function getUser(
-  request: FastifyRequest<{ Params: TUsersData }>,
-  reply: FastifyReply
-) {
-  try {
-    const { username } = request.params;
-    const user = await fetchUser(username);
-
-    if (!user) {
-      return reply.status(404).send({ message: "This User does not exist" });
-    }
-
-    return reply.send({ user });
-  } catch (err) {
-    return reply.status(500).send({ message: "Internal Server Error" });
   }
 }
 
@@ -141,6 +91,9 @@ export async function setInvitedFriend(
     return reply.status(500).send({ message: "Internal Server Error" });
   }
 }
+
+//? cannot have multiple controllers on the same endpoint
+//? one event handler that switches between which controller is being used depending on the query action applied:
 export async function patchEventHandler(
   request: FastifyRequest<{
     Params: TEventsData;
@@ -170,7 +123,7 @@ export async function patchEventHandler(
   }
 }
 
-//!POST a new event to certain user
+//! POST a new event
 export async function postAnEvent(
   request: FastifyRequest<{ Body: TEventsData }>,
   reply: FastifyReply
@@ -225,7 +178,7 @@ export async function deleteEvent(
   try {
     const { event_id } = request.params;
     await removeEvent(event_id);
-    reply.code(204)
+    reply.code(204);
   } catch (error) {
     console.error("Delete event failed:", error);
     return reply.status(500).send({ message: "Internal Server Error" });

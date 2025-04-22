@@ -1,22 +1,26 @@
 // In your routes file
 import { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
+
 import {
   getAllUsers,
-  getAllEvents,
-  getEvent,
   getEventByUser,
   getUser,
+} from "../controllers/users.controllers";
+
+import {
+  getAllEvents,
+  getEvent,
   postAnEvent,
   patchEventHandler,
   deleteEvent,
-} from "../controllers/controllers";
+} from "../controllers/events.controllers";
 
 import endpoints from "../endpoints";
 
 export function getApiDocumentation(fastify: FastifyInstance) {
   fastify.get("/api", async (req: FastifyRequest, reply: FastifyReply) => {
     try {
-      const api = await reply.code(200).send({ endpoints });
+      await reply.code(200).send({ endpoints });
     } catch (error) {
       console.error("Error fetching Api Documentation", error);
       throw error;

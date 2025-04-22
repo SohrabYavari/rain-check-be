@@ -1,3 +1,4 @@
+import format from "pg-format";
 import db from "../server/connection";
 import { TEventsData, TUsersData } from "../types/TData";
 
@@ -10,6 +11,7 @@ export async function createUsersTable() {
   return db.query(`
     CREATE TABLE users (
       username TEXT PRIMARY KEY,
+      avatar_img_url TEXT,
       email TEXT NOT NULL,
       password TEXT NOT NULL
     );
@@ -20,6 +22,7 @@ export async function createEventsTable() {
   return db.query(`
     CREATE TABLE events (
       event_id SERIAL PRIMARY KEY,
+      event_img_url TEXT,
       title VARCHAR(100) NOT NULL,
       description TEXT NOT NULL,
       date DATE NOT NULL,
@@ -36,32 +39,32 @@ export async function createEventsTable() {
 }
 
 export async function seedUsers(users: TUsersData[]) {
-  const values = users.map(
-    (_, i) => `($${i * 3 + 1}, $${i * 3 + 2}, $${i * 3 + 3})`
-  ).join(", ");
-
-  const flat = users.flatMap(user => [
+  const usersFormatted = users.map((user) => [
     user.username,
+    user.avatar_img_url,
     user.email,
     user.password,
   ]);
 
-  return db.query(
+  const query = format(
     `
-    INSERT INTO users (username, email, password)
-    VALUES ${values}
+    INSERT INTO users (
+      username, 
+      avatar_img_url,
+      email, 
+      password
+    )
+    VALUES %L
   `,
-    flat
+    usersFormatted
   );
+
+  return db.query(query);
 }
 
 export async function seedEvents(events: TEventsData[]) {
-  const values = events.map((_, i) => {
-    const offset = i * 9;
-    return `($${offset + 1}, $${offset + 2}, $${offset + 3}, $${offset + 4}, $${offset + 5}, $${offset + 6}, $${offset + 7}, $${offset + 8}, $${offset + 9})`;
-  }).join(", ");
-
-  const flat = events.flatMap(event => [
+  const eventsFormatted = events.map((event) => [
+    event.event_img_url,
     event.title,
     event.description,
     event.date,
@@ -73,9 +76,10 @@ export async function seedEvents(events: TEventsData[]) {
     event.invitee_flaked,
   ]);
 
-  return db.query(
+  const query = format(
     `
     INSERT INTO events (
+      event_img_url,
       title,
       description,
       date,
@@ -86,8 +90,10 @@ export async function seedEvents(events: TEventsData[]) {
       host_flaked,
       invitee_flaked
     )
-    VALUES ${values}
+    VALUES %L
   `,
-    flat
+    eventsFormatted
   );
+
+  return db.query(query);
 }
