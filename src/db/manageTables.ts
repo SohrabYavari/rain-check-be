@@ -13,7 +13,7 @@ export async function createUsersTable() {
       username TEXT PRIMARY KEY,
       avatar_img_url TEXT,
       email TEXT NOT NULL,
-      password TEXT NOT NULL,
+      password TEXT NOT NULL
     );
   `);
 }
@@ -28,12 +28,14 @@ export async function createEventsTable() {
       date DATE NOT NULL,
       time TIME,
       location TEXT NOT NULL,
-      created_by TEXT NOT NULL REFERENCES users(username),
-      invited TEXT NOT NULL REFERENCES users(username),
+      created_by TEXT NOT NULL,
+      invited TEXT,
       host_flaked BOOLEAN DEFAULT FALSE,
-      invitee_flaked BOOLEAN DEFAULT FALSE
-    );
-  `);
+      invitee_flaked BOOLEAN DEFAULT FALSE,
+      FOREIGN KEY (created_by) REFERENCES users(username),
+      FOREIGN KEY (invited) REFERENCES users(username)
+      );
+      `);
 }
 
 export async function seedUsers(users: TUsersData[]) {
@@ -62,9 +64,8 @@ export async function seedUsers(users: TUsersData[]) {
 
 export async function seedEvents(events: TEventsData[]) {
   const eventsFormatted = events.map((event) => [
-    event.event_img_url,
-    event.title,
     event.event_img_url || null,
+    event.title,
     event.description,
     event.date,
     event.time,
@@ -80,7 +81,6 @@ export async function seedEvents(events: TEventsData[]) {
     INSERT INTO events (
       event_img_url,
       title,
-      event_img_url,
       description,
       date,
       time,
