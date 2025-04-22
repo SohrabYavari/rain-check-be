@@ -16,7 +16,7 @@ export async function fetchEventById(event_id: number) {
     "SELECT * FROM events WHERE event_id = $1",
     [event_id]
   );
-  
+
   return rows;
 }
 
@@ -61,6 +61,7 @@ export async function inviteFriend(username: string, event_id: number) {
 //! Adds new event object to the eventsConnection
 export async function addEvent(
   title: string,
+  event_img_url: string | null,
   description: string,
   date: string,
   time: string,
@@ -74,21 +75,23 @@ export async function addEvent(
     const insertQuery = `
       INSERT INTO events (
         title, 
+        event_img_url,
         description, 
         date, 
         time,
         location, 
         created_by, 
-        invited, 
-        host_flaked, 
+        invited,
+        host_flaked,
         invitee_flaked
       )
-      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
       RETURNING *;
     `;
 
     const { rows } = await eventsConnection.query(insertQuery, [
       title,
+      event_img_url,
       description,
       date,
       time,

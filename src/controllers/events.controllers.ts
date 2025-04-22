@@ -9,7 +9,6 @@ import {
   removeEvent,
 } from "../models/events.models";
 import { TEventsData, PatchActions } from "../types/TData";
-import { eventNames } from "process";
 
 export async function getAllEvents(
   request: FastifyRequest,
@@ -54,7 +53,7 @@ export async function getEvent(
 
 //! PATCH requests, marking the flakers and inviting friends
 export async function markInviteeFlaked(
-  request: FastifyRequest<{ Params: TEventsData }>,
+  request: FastifyRequest<{ Params: {event_id: number} }>,
   reply: FastifyReply
 ) {
   try {
@@ -66,7 +65,7 @@ export async function markInviteeFlaked(
   }
 }
 export async function markHostFlaked(
-  request: FastifyRequest<{ Params: TEventsData }>,
+  request: FastifyRequest<{ Params: {event_id: number} }>,
   reply: FastifyReply
 ) {
   try {
@@ -78,7 +77,7 @@ export async function markHostFlaked(
   }
 }
 export async function setInvitedFriend(
-  request: FastifyRequest<{ Params: TEventsData }>,
+  request: FastifyRequest<{ Params: {event_id: number} }>,
   reply: FastifyReply
 ) {
   try {
@@ -96,7 +95,7 @@ export async function setInvitedFriend(
 //? one event handler that switches between which controller is being used depending on the query action applied:
 export async function patchEventHandler(
   request: FastifyRequest<{
-    Params: TEventsData;
+    Params: { event_id: number }; 
     Querystring: { action: string };
   }>,
   reply: FastifyReply
@@ -131,6 +130,7 @@ export async function postAnEvent(
   try {
     const {
       title,
+      event_img_url,
       description,
       date,
       time,
@@ -138,23 +138,16 @@ export async function postAnEvent(
       created_by,
       invited,
       host_flaked,
-      invitee_flaked,
+      invitee_flaked
     } = request.body;
 
     //find a way to move this to the models
-    if (
-      !title ||
-      !description ||
-      !date ||
-      !location ||
-      !created_by ||
-      host_flaked === undefined ||
-      invitee_flaked === undefined
-    ) {
+    if (!title || !description || !date || !location || !created_by) {
       return reply.status(400).send({ message: "Bad Request" });
     }
     const event = await addEvent(
       title,
+      event_img_url,
       description,
       date,
       time,
@@ -172,7 +165,7 @@ export async function postAnEvent(
 
 //! DELETE event
 export async function deleteEvent(
-  request: FastifyRequest<{ Params: TEventsData }>,
+  request: FastifyRequest<{ Params: {event_id: number} }>,
   reply: FastifyReply
 ) {
   try {

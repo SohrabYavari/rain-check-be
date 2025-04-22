@@ -2,7 +2,7 @@ import request from "supertest";
 import server from "../server/server";
 import seed from "../db/seed";
 import db from "../server/connection";
-import { testData } from "../db/data/test-data";
+import { testData } from "../db/data/test-data/index";
 
 beforeAll(async () => {
   await seed(testData);
