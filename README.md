@@ -1,5 +1,4 @@
 # Rain Check Backend
----
 
 Tech stack: Typescript, PSQL, Fastify; hosted on SupaBase and Render. MVP structuire is given in this file.
 
