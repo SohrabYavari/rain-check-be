@@ -89,12 +89,14 @@ export async function addEvent(
       RETURNING *;
     `;
 
+    const defaultTime = '18:00:00'
+
     const { rows } = await eventsConnection.query(insertQuery, [
       title,
       event_img_url,
       description,
       date,
-      time,
+      time || defaultTime,
       location,
       created_by,
       invited,
