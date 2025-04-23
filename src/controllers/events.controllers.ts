@@ -17,7 +17,7 @@ export async function getAllEvents(
   try {
     const events = await fetchEvents();
 
-    if (!events) {
+    if (!events.length) {
       return reply.status(404).send({ message: "No events found" });
     }
 
@@ -35,7 +35,7 @@ export async function getEvent(
   try {
     const event = await fetchEventById(event_id);
 
-    if (!event_id) {
+    if (!event.length) {
       return reply.status(404).send({ message: "No event found" });
     }
 
@@ -53,41 +53,56 @@ export async function getEvent(
 
 //! PATCH requests, marking the flakers and inviting friends
 export async function markInviteeFlaked(
-  request: FastifyRequest<{ Params: {event_id: number} }>,
+  request: FastifyRequest<{ Params: { event_id: number } }>,
   reply: FastifyReply
 ) {
+  const { event_id } = request.params;
   try {
-    const { event_id } = request.params;
     const flaker = await inviteeFlaked(event_id);
     return reply.code(201).send({ success: true, data: flaker });
-  } catch (error) {
-    return reply.status(500).send({ message: "Internal Server Error" });
+  } catch (err) {
+    if (typeof event_id !== "number") {
+      return reply
+        .status(400)
+        .send({ message: "Bad Request, parameter must be a number" });
+    } else {
+      return reply.status(500).send({ message: "Internal Server Error" });
+    }
   }
 }
 export async function markHostFlaked(
-  request: FastifyRequest<{ Params: {event_id: number} }>,
+  request: FastifyRequest<{ Params: { event_id: number } }>,
   reply: FastifyReply
 ) {
+  const { event_id } = request.params;
   try {
-    const { event_id } = request.params;
     const flaker = await hostFlaked(event_id);
     return reply.code(201).send({ success: true, data: flaker });
-  } catch (error) {
-    return reply.status(500).send({ message: "Internal Server Error" });
+  } catch (err) {
+    if (typeof event_id !== "number") {
+      return reply
+        .status(400)
+        .send({ message: "Bad Request, parameter must be a number" });
+    } else {
+      return reply.status(500).send({ message: "Internal Server Error" });
+    }
   }
 }
 export async function setInvitedFriend(
-  request: FastifyRequest<{ Params: {event_id: number} }>,
+  request: FastifyRequest<{ Params: { event_id: number } }>,
   reply: FastifyReply
 ) {
+  const { event_id } = request.params;
+  const { invited } = request.body as { invited: string };
   try {
-    const { event_id } = request.params;
-    const { invited } = request.body as { invited: string };
-
     const event = await inviteFriend(invited, event_id);
     return reply.code(201).send({ event });
   } catch (error) {
-    return reply.status(500).send({ message: "Internal Server Error" });
+    if (typeof event_id !== "number" || typeof invited !== "string") {
+      return reply.status(400).send({ message: "Bad Request" });
+    } else {
+      return reply.status(500).send({ message: "Internal Server Error" });
+    }
   }
 }
 
@@ -95,7 +110,7 @@ export async function setInvitedFriend(
 //? one event handler that switches between which controller is being used depending on the query action applied:
 export async function patchEventHandler(
   request: FastifyRequest<{
-    Params: { event_id: number }; 
+    Params: { event_id: number };
     Querystring: { action: string };
   }>,
   reply: FastifyReply
@@ -127,24 +142,19 @@ export async function postAnEvent(
   request: FastifyRequest<{ Body: TEventsData }>,
   reply: FastifyReply
 ) {
+  const {
+    title,
+    event_img_url,
+    description,
+    date,
+    time,
+    location,
+    created_by,
+    invited,
+    host_flaked,
+    invitee_flaked,
+  } = request.body;
   try {
-    const {
-      title,
-      event_img_url,
-      description,
-      date,
-      time,
-      location,
-      created_by,
-      invited,
-      host_flaked,
-      invitee_flaked
-    } = request.body;
-
-    //find a way to move this to the models
-    if (!title || !description || !date || !location || !created_by) {
-      return reply.status(400).send({ message: "Bad Request" });
-    }
     const event = await addEvent(
       title,
       event_img_url,
@@ -159,13 +169,17 @@ export async function postAnEvent(
     );
     return reply.code(201).send({ event });
   } catch (err) {
-    return reply.status(500).send({ message: "Internal Server Error" });
+    if (!title || !description || !date || !location || !created_by) {
+      return reply.status(400).send({ message: "Bad Request" });
+    } else {
+      return reply.status(500).send({ message: "Internal Server Error" });
+    }
   }
 }
 
 //! DELETE event
 export async function deleteEvent(
-  request: FastifyRequest<{ Params: {event_id: number} }>,
+  request: FastifyRequest<{ Params: { event_id: number } }>,
   reply: FastifyReply
 ) {
   try {
