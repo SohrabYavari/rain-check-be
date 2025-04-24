@@ -12,12 +12,16 @@ export async function fetchEvents() {
 
 //! Fetch single user and event from eventsConnection
 export async function fetchEventById(event_id: number) {
-  const { rows } = await eventsConnection.query(
-    "SELECT * FROM events WHERE event_id = $1",
-    [event_id]
-  );
+  try {
+    const { rows } = await eventsConnection.query(
+      "SELECT * FROM events WHERE event_id = $1",
+      [event_id]
+    );
 
-  return rows;
+    return rows;
+  } catch (error) {
+    console.error("Error fetching event", error);
+  }
 }
 
 //! Updating the flakers on the eventsConnection
@@ -89,11 +93,10 @@ export async function addEvent(
       RETURNING *;
     `;
 
-    const defaultTime = '18:00:00'
-
+    const defaultTime = "18:00:00";
     const { rows } = await eventsConnection.query(insertQuery, [
       title,
-      event_img_url,
+      event_img_url,-
       description,
       date,
       time || defaultTime,
